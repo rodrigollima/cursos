@@ -1,3 +1,4 @@
-/**
- * Created by rodrigo on 4/25/14.
- */
+function simpleController($scope)
+{
+    $scope.user = {name:'Rodrigo'}
+}
