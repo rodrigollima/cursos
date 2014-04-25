@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html ng-app>
+<head>
+    <title>Form Validação</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.4/angular.min.js"></script>
+</head>
+<body>
+    <form name="myForm">
+        <span ng-show="myForm.$invalid">
+            Found errors in the form
+        </span>
+        <input type="text" name="Name" ng-model="name" value="Your Name" required />
+        <button ng-disabled="myForm.$invalid">save</button>
+    </form>
+</body>
+</html>
