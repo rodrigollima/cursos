@@ -20,7 +20,7 @@ $app.config( function ($routeProvider, $httpProvider) {
                $error = $data.error;
                console.error($data);
                if ($error && $error.text)
-                alert("ERROR: " $error.text);
+                alert("ERROR: "+ $error.text);
                else {
                    if (response.status=404)
                        alert("Erro ao acessar oservidor");
@@ -38,7 +38,7 @@ $app.run( function( $rootScope ) {
 
     $rootScope.showLoaderFlag = false;
 
-    $root.showLoader = function() {
+    $rootScope.showLoader = function() {
         $rootScope.showLoaderFlag = true;
     }
 

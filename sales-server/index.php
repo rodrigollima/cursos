@@ -1,5 +1,6 @@
 <?php
 session_start();
+header('Access-Control-Allow-Origin: *');
 require 'app/config/config.php';
 require 'app/DB.php';
 
