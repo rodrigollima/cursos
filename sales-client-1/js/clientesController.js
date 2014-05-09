@@ -17,4 +17,21 @@ function clientesController($scope, $http, $routeParams, $location) {
         });
     }
 
+    $scope.loadRow = function() {
+        console.log($routeParams.id);
+        if ($routeParams.id != null)
+        {
+            $scope.showLoader();
+            $http.get($scope.server("/customer/"+$routeParams.id)).success(function (data) {
+               $scope.row = data;
+               $scope.row.isUpdate = true;
+            });
+        } else {
+            $scope.row={};
+            $scope.row.CustomerID=null;
+            $scope.row.isUpdate=false;
+
+        }
+    }
+
 }

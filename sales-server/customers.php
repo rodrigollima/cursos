@@ -8,7 +8,7 @@ $app->get("/customers", function () {
 });
 
 $app->get("/customer/:id", function($id) {
-   $sql = "SELECT CustomerID, ContactName, Phone, FROM customers WHERE CustomerID = '$id'";
+   $sql = "SELECT CustomerID, ContactName, Phone FROM customers WHERE CustomerID = '$id'";
    $stmt = DB::prepare($sql);
    $stmt->execute();
    formataJson($stmt->fetch());
