@@ -16,7 +16,7 @@ $app->get("/customer/:id", function($id) {
 
 $app->post("/customer/:id", function($id) {
    $data = json_decode(\Slim\Slim::getInstance()->request()->getBody());
-
+    
    if ($data->isUpdate) {
        $sql = "UPDATE customers SET ContactName=?,Phone=? WHERE CustomerID=?";
        $stmt = DB::prepare($sql);

@@ -34,4 +34,18 @@ function clientesController($scope, $http, $routeParams, $location) {
         }
     }
 
+    $scope.save = function(){
+        $scope.showLoader();
+
+        url = $scope.server("customer/"+$routeParams.id);
+        $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+
+        $http.post(url, $scope.row)
+
+        //$http.post($scope.server("/customer/"+$routeParams.id),$scope.row)
+            .success(function(data){
+                alert("Salvo com sucesso");
+                $scope.row.isUpdate = true;
+            });
+    }
 }
