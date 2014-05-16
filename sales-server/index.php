@@ -1,6 +1,8 @@
 <?php
 session_start();
 header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE');
+
 require 'app/config/config.php';
 require 'app/DB.php';
 
