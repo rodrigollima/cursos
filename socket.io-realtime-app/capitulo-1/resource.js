@@ -1,42 +1,26 @@
-var http = require("http");
-var url  = require("url");
+var server = require("./server.js");
+var path = require("path");
+var fs  = require("fs");
 
-var route = {
-    routes : {},
-    for: function(method, path, handler) {
-        this.routes[method+path] = handler;
-    }
-}
+root = __dirname;
 
-
-route.for("GET", "/start", function(request, response) {
+server.forRoute("GET", "/start", function(request, response) {
     response.writeHead(200, {"Content-Type":"text/plain"});
     response.write("Start");
     response.end();
 });
 
-route.for("GET", "/finish", function(request, response) {
+server.forRoute("GET", "/finish", function(request, response) {
     response.writeHead(200, {"Content-Type":"text/plain"});
     response.write("Finish");
     response.end();
 });
 
-route.for("GET", "/echo", function(request, response) {
-    var body = '<html>' +
-    '<head><title>Node.js Echo</title></head>' +
-    '<body>' +
-    '<form method="POST">' +
-    '<input type="text" name="msg" />' +
-    '<input type="submit" value="echo" />' +
-    '</form>' +
-    '</body></html>';
-
-    response.writeHead(200, {"Content-Type":"text/html"});
-    response.write(body);
-    response.end();
+server.forRoute("GET", "/echo", function(request, response) {
+   serveStatic(response, "echo.html");
 });
 
-route.for("POST", "/echo", function(request, response) {
+server.forRoute("POST", "/echo", function(request, response) {
     var incoming = "";
     
     request.on('data', function(chunk) {
@@ -51,18 +35,21 @@ route.for("POST", "/echo", function(request, response) {
     
 });
 
-function onRequest(request, response) {
-    var pathname = url.parse(request.url).pathname;
-    console.log("Request for " + request.method + pathname + " received.");
+var serveStatic = function(response, file) {
+    console.log(path.join);
+    console.log(root);
+    console.log(file);
+    var fileToServe = path.join(root, file);
+    var stream = fs.createReadStream(fileToServe);
 
-    if (typeof route.routes[request.method + pathname] === 'function') {
-        route.routes[request.method + pathname](request, response);
-    } else {
-	response.writeHead(400, {"Content-Type":"text/plain"});
-	response.end("404 Not Found");
-    }
+    stream.on('data', function(chunk) {
+        response.write(chunk);
+    });
+
+    stream.on('end', function() {
+        response.end();
+    });
 }
 
-http.createServer(onRequest).listen(9999);
-console.log("Server has started.");
-    	
+
+server.start();    	
