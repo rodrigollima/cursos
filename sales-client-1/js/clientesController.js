@@ -34,4 +34,33 @@ function clientesController($scope, $http, $routeParams, $location) {
         }
     }
 
+    $scope.save = function(){
+        $scope.showLoader();
+
+        url = $scope.server("customer/"+$routeParams.id);
+        $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+
+        $http.post(url, $scope.row)
+
+        //$http.post($scope.server("/customer/"+$routeParams.id),$scope.row)
+            .success(function(data){
+                alert("Salvo com sucesso");
+                $scope.row.isUpdate = true;
+            });
+    }
+
+    $scope.del = function() {
+        $scope.showLoader();
+
+        if (confirm("Deseja excluir " + $scope.row.CustomerID + "?")) {
+
+            $http({method: 'DELETE', url: $scope.server("customer/"+$routeParams.id)})
+
+                //$http.delete($scope.server("customer/"+$routeParams.id))
+                .success(function(s) {
+                    alert("Excluído com sucesso.");
+                    $location.path("/clientes");
+                });
+        }
+    }
 }
