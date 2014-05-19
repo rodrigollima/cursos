@@ -3,8 +3,10 @@ var io = require('socket.io');
 exports.initialize = function (server) {
 
     io = io.listen(server);
+    self = this;
 
-    var chatInfra = io.of("/chat_infra").on("connection", function(socket) {
+    this.chatInfra = io.of("/chat_infra");
+	this.chatInfra.on("connection", function(socket) {
         socket.on("set_name", function (data) {
 	    socket.set("nickname", data.name, function () {
 	        socket.emit("name_set", data);
@@ -12,18 +14,29 @@ exports.initialize = function (server) {
 		    type:'serverMessage',
 		    message:'Welcome to the chat.' 
 		}));
-		socket.broadcast.emit('user_entered', data);
+		//socket.broadcast.emit('user_entered', data);
 	    });
 	});
+        socket.on("join_room", function (room) {
+	    socket.get('nickname', function (err, nickname) {
+		socket.join(room.name);
+		var comSocket = self.chatCom.sockets[socket.id];
+		comSocket.join(room.name);
+		comSocket.room = room.name;
+		socket.in(room.name).broadcast.emit('user_entered', {'name':nickname});
+	    });
+	});	
     });
 
-    var chatCom = io.of("/chat_com").on("connection", function(socket) {
+    this.chatCom = io.of("/chat_com");
+	this.chatCom.on("connection", function(socket) {
         socket.on("message", function(message) {
 	    message = JSON.parse(message);
 	    if (message.type == "userMessage") {
 	        socket.get('nickname', function(err, nickname) {
 		    message.username = nickname;
-		    socket.broadcast.send(JSON.stringify(message));
+		    console.log(socket.room);
+		    socket.in(socket.room).broadcast.send(JSON.stringify(message));
 		    message.type = "myMessage";
 		    socket.send(JSON.stringify(message));
 		});

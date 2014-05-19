@@ -1,7 +1,15 @@
 var chatInfra = io.connect('/chat_infra'),
     chatCom   = io.connect('/chat_com');
 
+var roomName = decodeURI(
+    (RegExp("room" + '=' + '(.+?)(&|$)').exec(location.search)  || [, null])[1]
+);
+
+
+if (roomName) {
 chatInfra.on("name_set", function (data) {
+    chatInfra.emit('join_room',{'name':roomName});
+ 
     chatInfra.on("user_entered", function (user) {
         $('#messages').append('<div class="systemMessage">' + user.name + ' has joined the rom.</div>');
     });
@@ -29,6 +37,7 @@ chatInfra.on("name_set", function (data) {
 	$('#message').val();
     });
 });
+}
 
 $(function () {
     $('#setname').click(function () {
