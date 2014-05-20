@@ -1,6 +1,10 @@
 extends layout
 
+block append head
+  script(type='text/javascript', src='/javascripts/landing.js')
+
 block content
   section#welcome
   div Welcome
-  a#startchat(type="button", class="btn btn-primary", href="/chatroom") Start now
+  input#nickname(type="text", placeholder="Enter a nickname")
+  a#startchat(type="button", class="btn") Login

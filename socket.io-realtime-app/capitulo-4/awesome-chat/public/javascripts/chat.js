@@ -7,8 +7,9 @@ var roomName = decodeURI(
 
 
 if (roomName) {
-chatInfra.on("name_set", function (data) {
-    chatInfra.emit('join_room',{'name':roomName});
+    chatInfra.emit('join_room', {'name':roomName});
+    chatInfra.on("name_set", function (data) {
+   // chatInfra.emit('join_room',{'name':roomName});
  
     chatInfra.on("user_entered", function (user) {
         $('#messages').append('<div class="systemMessage">' + user.name + ' has joined the rom.</div>');

@@ -4,12 +4,16 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var connect = require('connect'); 
+var session = require('express-session');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var chatroom = require('./routes/chatroom');
 
 var app = express();
+
+var sessionStore = new connect.session.MemoryStore();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,6 +25,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(bodyParser());
+app.use(cookieParser('somesuperspecialsecrethere'));
+app.use(session({secret:'opaaa',key:'sid', store:sessionStore}));
 
 app.use('/', routes);
 app.use('/users', users);
