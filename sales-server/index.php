@@ -25,4 +25,6 @@ function formataJson($obj)
 }
 
 include("customers.php");
+include("employee.php");
+
 $app->run();

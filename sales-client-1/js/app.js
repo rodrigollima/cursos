@@ -8,6 +8,7 @@ $app.config( function ($routeProvider, $httpProvider) {
        when('/clientes', {templateUrl: 'view/clientes/main.html', controller:clientesController}).
        when('/clientes/new', {templateUrl: 'view/clientes/update.html', controller:clientesController}).
        when('/cliente/:id', {templateUrl: 'view/clientes/update.html', controller:clientesController}).
+       when('/funcionarios', {templateUrl: 'view/funcionarios/main.html', controller:funcionariosController}).
        otherwise({redirectTo:'/'});
 
    $httpProvider.responseInterceptors.push( function ($q, $rootScope) {

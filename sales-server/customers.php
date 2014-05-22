@@ -40,7 +40,7 @@ $app->post("/customer/:id", function($id) {
 });
 
 
-$app->delete("customer/:id", function ($id) {
+$app->delete("/customer/:id", function ($id) {
     $sql = "DELETE FROM customers WHERE CustomerID=?";
     $stmt = DB::prepare($sql);
     $stmt->execute(array($id));

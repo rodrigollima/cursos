@@ -39,6 +39,7 @@ function clientesController($scope, $http, $routeParams, $location) {
 
         url = $scope.server("customer/"+$routeParams.id);
         $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+        $http.defaults.headers.delete["_method"] = "delete";
 
         $http.post(url, $scope.row)
 
