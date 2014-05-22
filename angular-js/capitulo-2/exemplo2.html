@@ -1,0 +1,21 @@
+<html ng-app>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script>
+    <script type="text/javascript">
+	function StartUpController($scope) {
+	  $scope.funding = {startingEstimate:0};
+	  
+	  computeNeeded = function() {
+	      $scope.needed = $scope.funding.startingEstimate * 10;
+	  }; 	  
+	  $scope.$watch('funding.startingEstimate', computeNeeded);
+	}
+    </script>
+  </head>
+  <body >
+	<form ng-controller="StartUpController">
+	  Starting: <input ng-model="funding.startingEstimate">
+	  Recomendation: {{funding.startingEstimate}} 
+	</form>
+  </body>
+</html>
